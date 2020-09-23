@@ -1,0 +1,43 @@
+name: "Kitchen Tests"
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  default-shared-vpc:
+    name: "Default Shared VPC"
+    runs-on: [self-hosted, kitchen]
+    env:
+      RUBYOPT: "-W:no-deprecated -W:no-experimental"
+
+    # Use the Bash shell
+    defaults:
+      run:
+        shell: bash
+
+
+    steps:
+      # GitHub - Checkout
+      # https://github.com/marketplace/actions/checkout
+
+      - name: GitHub Checkout
+        uses: actions/checkout@v2.3.1
+      
+      # Google Cloud Platform - Setup gcloud environment
+      # https://github.com/marketplace/actions/setup-gcloud-environment
+
+      - name: Google Cloud Platform CLI Setup
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@0.1.2
+        with:
+          version: "297.0.1"
+          service_account_key: ${{ secrets.GCP_TF_CHILD_MODULE_GITHUB_SA_KEY }}
+          export_default_credentials: true
+
+      # Kitchen
+      
+      - name: Run Kitchen Tests
+        run: |
+          kitchen test
