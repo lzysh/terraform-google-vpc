@@ -1,4 +1,4 @@
-# Google Cloud Platform - Terraform VPC Module ![Terraform](https://github.com/lzysh/terraform-google-vpc/workflows/Terraform/badge.svg)
+# Google Cloud Platform - Terraform VPC Module ![Kitchen Tests](https://github.com/lzysh/terraform-google-vpc/workflows/Kitchen%20Tests/badge.svg)
 
 Terraform module for a Google Cloud Platform VPC.
 
