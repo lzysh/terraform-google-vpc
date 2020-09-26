@@ -1,6 +1,4 @@
 name: default-vpc
-supports:
-  - platform: gcp
 depends:
   - name: inspec-gcp
     url: https://github.com/inspec/inspec-gcp/archive/v1.7.0.tar.gz

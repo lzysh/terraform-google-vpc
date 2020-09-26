@@ -1,7 +1,4 @@
-# Project Service Resource
-# https://www.terraform.io/docs/providers/google/r/google_project_service.html
-
-resource "google_project_service" "shared_vpc_service" {
+resource "google_project_service" "this" {
   project = var.project_id
   count   = length(var.services)
   service = element(var.services, count.index)
@@ -9,30 +6,22 @@ resource "google_project_service" "shared_vpc_service" {
   disable_on_destroy = false
 }
 
-# Compute Network Resource
-# https://www.terraform.io/docs/providers/google/r/compute_network.html
-
-resource "google_compute_network" "shared_vpc" {
+resource "google_compute_network" "this" {
   project                 = var.project_id
-  name                    = var.shared_vpc_name
+  name                    = var.vpc_name
   auto_create_subnetworks = "false"
   routing_mode            = "GLOBAL"
 
-  depends_on = [google_project_service.shared_vpc_service]
+  depends_on = [google_project_service.this]
 }
 
-# Compute Subnetwork Resource
-# https://www.terraform.io/docs/providers/google/r/compute_subnetwork.html
-
-resource "google_compute_subnetwork" "shared_subnet" {
-  provider = google-beta
-
+resource "google_compute_subnetwork" "this" {
   project       = var.project_id
   count         = length(var.subnets)
   name          = var.subnets[count.index]["subnet_name"]
   ip_cidr_range = var.subnets[count.index]["subnet_range"]
   region        = var.subnets[count.index]["subnet_region"]
-  network       = google_compute_network.shared_vpc.self_link
+  network       = google_compute_network.this.self_link
   dynamic "log_config" {
     for_each = lookup(var.subnets[count.index], "subnet_flow_logs", false) ? [{
       aggregation_interval = lookup(var.subnets[count.index], "subnet_flow_logs_interval", "INTERVAL_5_SEC")
@@ -57,9 +46,19 @@ resource "google_compute_subnetwork" "shared_subnet" {
   var.secondary_ranges[var.subnets[count.index]["subnet_name"]][i]]
 }
 
-# Compute Shared VPC Host Resource
-# https://www.terraform.io/docs/providers/google/r/compute_shared_vpc_host_project.html
+resource "google_compute_firewall" "fw_allow_health_check" {
+  project = var.project_id
+  name    = "${google_compute_network.this.name}-allow-health-check"
+  network = google_compute_network.this.name
 
-resource "google_compute_shared_vpc_host_project" "shared_vpc" {
+  allow {
+    protocol = "tcp"
+  }
+
+  source_ranges = ["35.191.0.0/16", "130.211.0.0/22"]
+}
+
+resource "google_compute_shared_vpc_host_project" "this" {
+  count   = var.shared_vpc ? 1 : 0
   project = var.project_id
 }

@@ -1,7 +1,8 @@
 project_id = "my-project-sb"
+vpc_name   = "my-vpc"
 subnets = [
   {
-    subnet_name      = "lzysh-vpc-us-east4"
+    subnet_name      = "my-subnet-us-east4"
     subnet_range     = "172.23.21.0/24"
     subnet_region    = "us-east4"
     subnet_flow_logs = "true"

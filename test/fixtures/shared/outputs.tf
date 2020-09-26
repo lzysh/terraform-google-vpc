@@ -1,5 +1,5 @@
-output "shared_vpc_self_link" {
-  value = module.test.shared_vpc_self_link
+output "vpc_self_link" {
+  value = module.test.vpc_self_link
 }
 
 output "network_name" {

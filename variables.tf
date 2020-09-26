@@ -3,9 +3,10 @@ variable "project_id" {
   type        = string
 }
 
-variable "shared_vpc_name" {
-  description = "Name of the shared VPC"
-  type        = string
+variable "secondary_ranges" {
+  description = "A map of configurations for secondary IP ranges"
+  type        = map(list(object({ range_name = string, ip_cidr_range = string })))
+  default     = {}
 }
 
 variable "services" {
@@ -14,17 +15,21 @@ variable "services" {
 
   default = [
     "compute.googleapis.com",
-    "container.googleapis.com",
   ]
 }
 
+variable "shared_vpc" {
+  type        = bool
+  description = "Enable VPC sharing"
+  default     = false
+}
+
 variable "subnets" {
-  description = "An array of configurations for subnet"
+  description = "An map of configurations for subnet"
   type        = list(map(string))
 }
 
-variable "secondary_ranges" {
-  description = "An array of configurations for secondary IP ranges for VM instances contained in this subnetwork"
-  type        = map(list(object({ range_name = string, ip_cidr_range = string })))
-  default     = {}
+variable "vpc_name" {
+  description = "Name of the VPC"
+  type        = string
 }

@@ -1,5 +1,5 @@
 terraform {
   backend "gcs" {
-    bucket = "tf-child-modules-github-actions-state"
+    bucket = "terraform-child-modules-github-actions-state"
   }
 }

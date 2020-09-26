@@ -15,14 +15,18 @@ suites:
     driver:
       root_module_directory: test/fixtures/default-vpc
     verifier:
-      color: false
+      color: true
       systems:
-        - name: default-vpc
+        - name: inspec-gcp-cis-benchmark
           backend: gcp
           attrs_outputs:
             gcp_project_id: project_id
           controls:
-            - attributes
-            - gcp-resources
+            - cis-gcp-3.2-networking
             - cis-gcp-3.6-networking
             - cis-gcp-3.7-networking
+            - cis-gcp-3.8-networking
+        - name: inspec-gcp
+          backend: gcp
+          controls:
+            - google-compute-network

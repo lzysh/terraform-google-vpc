@@ -8,7 +8,7 @@ on:
 
 jobs:
   default-shared-vpc:
-    name: "Default Shared VPC"
+    name: "Default VPC"
     runs-on: [self-hosted, kitchen]
     env:
       RUBYOPT: "-W:no-deprecated -W:no-experimental"
