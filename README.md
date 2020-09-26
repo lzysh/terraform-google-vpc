@@ -6,7 +6,7 @@ Terraform module for a Google Cloud Platform VPC.
 
 ```hcl
 module "shared-vpc" {
-  source = "git@github.com:lzysh/terraform-google-vpc.git?ref=v1.1.0"
+  source = "git@github.com:lzysh/terraform-google-vpc.git?ref=v1.0.0"
   
   project_id = module.project.project_id
   vpc_name   = "my-vpc"
