@@ -1,3 +1,28 @@
+variable "firewall_rules" {
+  description = "An map of configurations for firewall rules"
+
+  default = [
+    {
+      name          = "allow-health-check"
+      source_ranges = ["130.211.0.0/22", "35.191.0.0/16", "209.85.152.0/22", "209.85.204.0/22"]
+
+      allow = {
+        protocol = "tcp"
+      }
+    },
+    {
+      name          = "allow-ssh-ingress-from-iap"
+      source_ranges = ["35.235.240.0/20"]
+
+      allow = {
+        protocol = "tcp"
+        ports    = ["22"]
+      }
+
+    }
+  ]
+}
+
 variable "project_id" {
   description = "The Project ID"
   type        = string
@@ -6,7 +31,8 @@ variable "project_id" {
 variable "secondary_ranges" {
   description = "A map of configurations for secondary IP ranges"
   type        = map(list(object({ range_name = string, ip_cidr_range = string })))
-  default     = {}
+
+  default = {}
 }
 
 variable "services" {
@@ -21,7 +47,8 @@ variable "services" {
 variable "shared_vpc" {
   type        = bool
   description = "Enable VPC sharing"
-  default     = false
+
+  default = false
 }
 
 variable "subnets" {
