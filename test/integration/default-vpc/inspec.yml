@@ -1,9 +1,9 @@
 name: default-vpc
 depends:
   - name: inspec-gcp
-    url: https://github.com/inspec/inspec-gcp/archive/v1.7.0.tar.gz
+    url: https://github.com/inspec/inspec-gcp/archive/v1.8.0.tar.gz
   - name: inspec-gcp-cis-benchmark
-    url: https://github.com/GoogleCloudPlatform/inspec-gcp-cis-benchmark/archive/v1.1.0-11.tar.gz
+    url: https://github.com/GoogleCloudPlatform/inspec-gcp-cis-benchmark/archive/1.1.0-18.tar.gz
 inputs:
   - name: gcp_project_id
     profile: inspec-gcp-cis-benchmark
